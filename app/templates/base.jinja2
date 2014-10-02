@@ -57,35 +57,26 @@
             {% endif %}
         </div>
 
-        <div id="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        {% for flash in g.identity.get_flashes() %}
-                            <div class="flash alert alert-{{ flash.category == 'message' and 'info' or flash.category }} alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                <div>{{ flash.get_message() }}</div>
-                            </div>
-                        {% endfor %}
-                    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    {% for flash in g.identity.get_flashes() %}
+                        <div class="flash alert alert-{{ flash.category == 'message' and 'info' or flash.category }} alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <div>{{ flash.get_message() }}</div>
+                        </div>
+                    {% endfor %}
                 </div>
-                <div class="row">
-                    <div class="col-xs-12">
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div id="content">
                         {% block content %}page content here{% endblock %}
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div id="footer-title">Footer Here</div>
-                    </div>
-                </div>
-            </div>
-        </div>
         {%- block script %}{%- endblock %}
         <!-- served by {{ hostname }} -->
   </body>
