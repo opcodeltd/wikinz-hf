@@ -5,6 +5,7 @@
 # Generated files
 
 /app/cdn/less/app.css
+/app/cdn/less/*.css.map
 
 # Node modules
 
