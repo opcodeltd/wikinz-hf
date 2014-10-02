@@ -1,0 +1,25 @@
+[server]
+debug = true
+url = http://wikinz_hf.emo.dollyfish.net.nz
+
+[mongo]
+# url = mongodb://localhost/wikinz_hf
+# or
+# url = mongodb://host1,host2,host3/wikinz_hf?replicaSet=test
+
+# Optionally you can specify these
+# username = someuser
+# password = somepassword
+
+[test]
+server_port = 6999
+server_url = http://localhost:6999
+
+#selenium_server_host = 66.216.100.207
+selenium_server_host = 127.0.0.1
+selenium_server_port = 4444
+#browser = chrome
+#browser = firefox
+browser = htmlunit
+#browser = iphone
+#browser = internet explorer
