@@ -1,0 +1,31 @@
+# Local configuration
+
+/app/local.ini
+
+# Generated files
+
+/app/cdn/less/app.css
+
+# Node modules
+
+/node_modules
+
+# Bower modules
+
+/app/cdn/lib
+
+# Virtual environment stuff
+
+/bin
+/include
+/lib
+/local
+/logs
+/share
+
+# Python stuff
+
+*.pyc
+
+# Trex stuff
+/.rubble_passed_tests

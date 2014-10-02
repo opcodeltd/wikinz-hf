@@ -1,0 +1,3 @@
+[submodule "trex"]
+	path = trex
+	url = git@github.com:shoptime/trex.git

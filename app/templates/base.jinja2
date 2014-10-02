@@ -1,0 +1,92 @@
+{%- import 'trex.jinja2' as trex with context -%}
+<!DOCTYPE html>
+<html class="{{ ' '.join(html_classes) }}{% if g.user %} user-role-{{ g.user.role }}{% endif %}" id="{{ html_id }}" data-csrf-token="{{ csrf_token() }}">
+    <head>
+        <meta charset="utf-8">
+        <title>{{ page_title|page_title('Wiki New Zealand Hackfest') }}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ cdn('less/app.css') }}">
+    </head>
+    <body>
+
+        <div id="header">
+            {% if g.user %}
+            <nav class="navbar navbar-default" role="navigation">
+                 <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ url_for('index.index') }}">Wiki New Zealand Hackfest</a>
+                 </div>
+
+                <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        {{ trex.bootstrap_nav_item('index.index', 'Home') }}
+                    </ul>
+                    {% if g.user.has_role('developer') %}
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Developer <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    {% if g.user.has_flag('trex.user_management') %}{{ trex.bootstrap_nav_item('trex.user_management.index', 'User Management', match='trex.user_management.') }}{% endif %}
+                                    {% if g.user.has_flag('trex.audit_log') %}{{ trex.bootstrap_nav_item('trex.audit_log.index', 'Audit Log') }}{% endif %}
+                                </ul>
+                            </li>
+                        </ul>
+                    {% endif %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ g.user.display_name }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                {{ trex.bootstrap_nav_item('trex.auth.change_password', 'Change password') }}
+                                <li class="divider"></li>
+                                {{ trex.bootstrap_nav_item('trex.auth.logout', 'Log out') }}
+                            </ul>
+                    </ul>
+                </div>
+            </nav>
+            {% else %}
+            <nav class="navbar navbar-default">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Wiki New Zealand Hackfest</a>
+                </div>
+            </nav>
+            {% endif %}
+        </div>
+
+        <div id="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        {% for flash in g.identity.get_flashes() %}
+                            <div class="flash alert alert-{{ flash.category == 'message' and 'info' or flash.category }} alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <div>{{ flash.get_message() }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        {% block content %}page content here{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="footer-title">Footer Here</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%- block script %}{%- endblock %}
+        <!-- served by {{ hostname }} -->
+  </body>
+</html>
