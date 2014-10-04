@@ -1,19 +1,29 @@
 // What element we will populate when a selection is made in the spreadsheet
 var SELECT_TARGET = null;
 
+function unset_select_target() {
+    $('[data-select-target]').removeClass('select-active');
+    SELECT_TARGET = null;
+}
+function set_select_target(new_target) {
+    $('[data-select-target]').removeClass('select-active');
+    $('[data-select-target="' + new_target + '"]').addClass('select-active');
+    SELECT_TARGET = '#' + new_target;
+}
+
 $(document).on('click', function(e) {
     var $target = $(e.target);
-    $('[data-select-target]').removeClass('select-active');
 
     if ($target.attr('data-select-target')) {
-        var select_target = $target.attr('data-select-target');
-        $('[data-select-target="' + select_target + '"]').addClass('select-active');
-        SELECT_TARGET = '#' + select_target;
+        set_select_target($target.attr('data-select-target'));
     }
     else {
-        SELECT_TARGET = null;
+        unset_select_target();
     }
 });
+
+// make the spreadsheet smaller
+// take tabindex off the table
 
 
 // Backbone stuff
@@ -22,16 +32,18 @@ var Column = Backbone.Model.extend({});
 var ColumnView = Backbone.View.extend({
     events: {
         'click .remove': 'remove',
+        'focus input': 'select_target',
     },
     render: function() {
         this.$el.html(_.template(COLUMN_VIEW_TPL, {model: this.model}));
+    },
+    select_target: function(e) {
+        set_select_target($(e.target).attr('data-select-target'));
     },
 });
 
 var ColumnList = Backbone.Collection.extend({
     model: Column,
-    initialize: function() {
-    },
 });
 
 
