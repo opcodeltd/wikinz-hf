@@ -1,0 +1,38 @@
+{%- set page_title = 'Home' -%}
+{%- extends 'base.jinja2' %}
+{%- block content -%}
+    <div class="pull-right">
+        <a class="btn btn-primary" href="{{ url_for('index.sources') }}">Make new table</a>
+    </div>
+    <h2>Available tables</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Created</th>
+                <th>Creator</th>
+                <th>Source</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for table in tables %}
+                <tr>
+                    <td>{{ table.title }}</td>
+                    <td>{{ table.created | quantum('datetime') }}</td>
+                    <td>{{ table.creator.display_name }}</td>
+                    <td>{{ table.source.title }}</td>
+                    <td class="text-right">
+                        <a class="btn btn-sm btn-default disabled" href="#">Edit</a>
+                        <a class="btn btn-sm btn-default" href="{{ url_for('index.charter', table_id=table.id) }}">Make graph</a>
+                        <a class="btn btn-sm btn-default" href="{{ url_for('index.download_table', table_id=table.id) }}">Download</a>
+                        <button class="btn btn-sm btn-danger trex-post-simple-confirm" data-href="{{ url_for('index.delete_table', table_id=table.id) }}">Delete</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{%- endblock -%}
+{% block script %}
+{% endblock %}

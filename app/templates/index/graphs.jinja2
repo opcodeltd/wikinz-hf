@@ -1,0 +1,36 @@
+{%- set page_title = 'Home' -%}
+{%- extends 'base.jinja2' %}
+{%- block content -%}
+    <div class="pull-right">
+        <a class="btn btn-primary" href="{{ url_for('index.tables') }}">Make new graph</a>
+    </div>
+    <h2>Available graphs</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Created</th>
+                <th>Creator</th>
+                <th>Table</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for graph in graphs %}
+                <tr>
+                    <td>{{ graph.title }}</td>
+                    <td>{{ graph.created | quantum('datetime') }}</td>
+                    <td>{{ graph.creator.display_name }}</td>
+                    <td>{{ graph.table.title }}</td>
+                    <td class="text-right">
+                        <a class="btn btn-sm btn-default disabled" href="#">Edit</a>
+                        <button class="btn btn-sm btn-danger trex-post-simple-confirm" data-href="{{ url_for('index.delete_graph', graph_id=graph.id) }}">Delete</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{%- endblock -%}
+{% block script %}
+{% endblock %}
