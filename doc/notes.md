@@ -1,22 +1,26 @@
 
-## Test servers
+## Our data
 
-[Nigel](http://wikinz-hf.dev.home.mcnie.name)
+Our data has five states.  Data progresses through these states in order.
 
-## SODA documentation
+**Raw** data is the files or URLs received from a contributor.  They are in any format and are not normalised, relational or even necessarily correct.
 
-[Finding an endpoint](http://dev.socrata.com/docs/endpoints.html)
+**Corrected** data is a file or URL which has been cleaned up in some way.  This step is optional and varies depending on the data.  For example, it might mean inflation adjustments, or standardising on units.
 
-[JSON conventions that are notable in SODA](http://dev.socrata.com/docs/formats/json.html)
+**Queryable** data is stored in a database that belongs to us.  It can be queried by us or by other people using a stable API we provide.
 
-## Sample data services
+**Chartable** data is stored by us in a different database. It consists of simple series extracted from the data that can be used to render a graph or a map.
 
-https://data.cityofnewyork.us/api/views/h9gi-nx95/rows.json?accessType=DOWNLOAD
-
-https://data.cityofchicago.org/resource/alternative-fuel-locations.json
+**Chart** data is the visual representation of the series data, published on the Wiki New Zealand site.
 
 
-## Findings
+## What other people use
+
+* [Socrata / SODA](http://socrata.com)
+
+* [CKAN](http://ckan.org)
+
+### Socrata
 
 Socrata's SODA server doesn't really exist as a usable open source implementation.
 
@@ -26,4 +30,33 @@ SODA data is not typed in any way that's usefully exposed to a user.  You're sup
 
 There's an extension header (?) called "XSODA2" that supposedly returns type definitions for the document, but this seems to be undocumented and possibly deprecated.
 
+Socrata isn't all that.
+
+#### Documentation
+
+* [Finding an endpoint](http://dev.socrata.com/docs/endpoints.html)
+
+* [JSON conventions that are notable in SODA](http://dev.socrata.com/docs/formats/json.html)
+
+#### Sample data services
+
+* [https://data.cityofnewyork.us/api/views/h9gi-nx95/rows.json?accessType=DOWNLOAD](https://data.cityofnewyork.us/api/views/h9gi-nx95/rows.json?accessType=DOWNLOAD)
+
+* [https://data.cityofchicago.org/resource/alternative-fuel-locations.json](https://data.cityofchicago.org/resource/alternative-fuel-locations.json)
+
+### CKAN
+
+CKAN is better.  CKAN is basically a data store for arbitrary tables in Postgres.  Data can be strongly typed provided it's entered via the API, and data can be retrieved via that same API.  This would satisfy our QUERYABLE component for free, but we would still need to write an import system and CHARTABLE.
+
+CKAN's built-in graphing is Recline.js, itself a wrapper on d3.js.  It's not very useful.
+
+#### Documentation
+
+## Test servers
+
+* [Nigel](http://wikinz-hf.dev.home.mcnie.name)
+
+## Charts
+
+* [Vega](https://github.com/trifacta/vega/wiki/Tutorial)
 
