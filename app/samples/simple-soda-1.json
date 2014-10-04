@@ -1,0 +1,47 @@
+[
+  {
+    "region": "Virgin Islands region",
+    "source": "pr",
+    "location": {
+      "needs_recoding": false,
+      "longitude": "-64.1723",
+      "latitude": "19.5907"
+    },
+    "magnitude": "3.3",
+    "number_of_stations": "4",
+    "datetime": "2012-09-14T07:58:39",
+    "earthquake_id": "12258011",
+    "depth": "74",
+    "version": "0"
+  },
+  {
+    "region": "Virgin Islands region",
+    "source": "pr",
+    "location": {
+      "needs_recoding": false,
+      "longitude": "-64.3468",
+      "latitude": "19.4752"
+    },
+    "magnitude": "3.1",
+    "number_of_stations": "6",
+    "datetime": "2012-09-14T06:32:36",
+    "earthquake_id": "12258010",
+    "depth": "70",
+    "version": "0"
+  },
+  {
+    "region": "Virgin Islands region",
+    "source": "pr",
+    "location": {
+      "needs_recoding": false,
+      "longitude": "-64.2926",
+      "latitude": "19.6098"
+    },
+    "magnitude": "3.2",
+    "number_of_stations": "3",
+    "datetime": "2012-09-14T04:33:08",
+    "earthquake_id": "12258009",
+    "depth": "7",
+    "version": "0"
+  }
+]
