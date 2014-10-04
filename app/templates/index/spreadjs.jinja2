@@ -1,75 +1,126 @@
 {%- set page_title = 'SpreadJS' -%}
 {%- extends 'base.jinja2' %}
 {%- block content -%}
+    <form method="post" class="add-series form-horizontal" style="margin-bottom: 10px;">
+        <div class="form-group">
+            <label for="source-title">Title:</label>
+            <input type="text" class="form-control" id="source-title">
+        </div>
+        <div class="form-group">
+            <label for="source-description">Description:</label>
+            <input type="text" class="form-control" id="source-description">
+        </div>
+        <div class="form-group">
+            <label for="source-source">Source:</label>
+            <input type="text" class="form-control" id="source-source">
+        </div>
+    </form>
     <div id="ss" style="width:100%;height:400px;"></div>
-    <button type="button" id="capture_selection">Select series</button>
 {%- endblock -%}
 
-{%- block script %}
-    <!--Theme-->
+{%- block head %}
     <link href="http://cdn.wijmo.com/themes/aristo/jquery-wijmo.css" rel="stylesheet" type="text/css" />
-
-    <!--SpreadJS Widgets JavaScript-->
-    <script src="http://cdn.wijmo.com/spreadjs/jquery.wijmo.wijspread.all.3.20142.13.min.js" type="text/javascript"></script>
-
-    <!--SpreadJS Widgets CSS-->
     <link href="http://cdn.wijmo.com/spreadjs/jquery.wijmo.wijspread.3.20142.13.css" rel="stylesheet" type="text/css" />
+{%- endblock %}
 
+{%- block script %}
+<!--<script src="http://cdn.wijmo.com/spreadjs/jquery.wijmo.wijspread.all.3.20142.13.min.js" type="text/javascript"></script>-->
 <script type="text/javascript">
-    var sheet_data = {{ sheets | tojson | safe }};
-    $(document).ready(function(){
-        $("#ss").wijspread({sheetCount:5}); // create wijspread control
-        var spread = $("#ss").wijspread("spread"); // get instance of wijspread control
-
-
-
-        var s_no = 0;
-        _.each(sheet_data, function(s) {
-            var sheet = spread.getSheet(s_no);
-            sheet.isPaintSuspended(true);
-
-            var row = 0;
-            _.map(s, function(column_data) {
-                var col = 0;
-
-                _.each(column_data, function(cell_data) {
-                    //console.log(row, col, cell_data);
-                    sheet.setText(row, col, cell_data);
-                    col++;
-                });
-
-
-                row++;
-            });
-
-            sheet.isPaintSuspended(false);
-
-            s_no++;
-        });
-
-        var lg_style = new $.wijmo.wijspread.Style();
-        lg_style.backColor = "lightgreen";
-
-        var sheet = spread.getActiveSheet(); // get active worksheet of the wijspread control
-        sheet.setStyle(0, 0, lg_style, $.wijmo.wijspread.SheetArea.viewport);
-
-
-        var SelectionCollection = Backbone.Collection.extend({});
-        selections = new SelectionCollection();
-
-        $('#capture_selection').on('click', function() {
-            var sheet = spread.getActiveSheet(); // get active worksheet of the wijspread control
-            var ranges = sheet.getSelections().toArray();
-            _.each(ranges, function(range) {
-                console.log(range.row, range.rowCount, range.col, range.colCount);
-                selections.add({
-                    row: range.row,
-                    col: range.col,
-                    rowCount: range.rowCount,
-                    colCount: range.colCount,
-                });
-            });
-        });
-    });
+var sheet_data = {{ sheets | tojson | safe }};
+</script>
+<script src="{{ cdn('js/extractor.js') }}"></script>
+<script type="text/javascript">
+//    $(document).ready(function(){
+//        $("#ss").wijspread({sheetCount:5}); // create wijspread control
+//        var spread = $("#ss").wijspread("spread"); // get instance of wijspread control
+//
+//
+//
+//        var s_no = 0;
+//        _.each(sheet_data, function(s) {
+//            var sheet = spread.getSheet(s_no);
+//            sheet.isPaintSuspended(true);
+//
+//            var row = 0;
+//            _.map(s, function(column_data) {
+//                var col = 0;
+//
+//                _.each(column_data, function(cell_data) {
+//                    //console.log(row, col, cell_data);
+//                    sheet.setText(row, col, cell_data);
+//                    col++;
+//                });
+//
+//
+//                row++;
+//            });
+//
+//            sheet.isPaintSuspended(false);
+//
+//            s_no++;
+//        });
+//
+//        //var lg_style = new $.wijmo.wijspread.Style();
+//        //lg_style.backColor = "lightgreen";
+//        //var sheet = spread.getActiveSheet(); // get active worksheet of the wijspread control
+//        //sheet.setStyle(0, 0, lg_style, $.wijmo.wijspread.SheetArea.viewport);
+//
+//
+//        var selection_target;
+//        $('.add-series label').on('click', function() {
+//            selection_target = $(this).next('input');
+//            console.log('selection target is now', selection_target);
+//        });
+//        $('.add-series input').on('focus', function() {
+//            selection_target = $(this);
+//            console.log('selection target is now', selection_target);
+//        });
+//
+//        function toCellName(row, col) {
+//            return String.fromCharCode(col + 65) + (row + 1);
+//        }
+//
+//        $('#ss').on('click', function(e) {
+//            //Acquire cell index from mouse-clicked point of regular cells which are neither fixed rows/columns nor row/column headers.
+//            var offset = $("#ss").offset();
+//            var x = e.pageX - offset.left;
+//            var y = e.pageY - offset.top;
+//            var activeSheet = spread.getActiveSheet();
+//            var target = activeSheet.hitTest(x, y);
+//
+//            if(target &&
+//                (target.rowViewportIndex === 0 || target.rowViewportIndex === 1) &&
+//                (target.colViewportIndex === 0 || target.colViewportIndex === 1)){
+//                if (selection_target) {
+//                    var ranges = activeSheet.getSelections().toArray();
+//                    var selectedRanges = [];
+//                    _.each(ranges, function(range) {
+//                        var cellStart = toCellName(range.row, range.col);
+//                        var cellEnd   = toCellName(range.row + range.rowCount - 1, range.col + range.colCount - 1);
+//                        selectedRanges.push({start: cellStart, end: cellEnd});
+//                    });
+//                    if (selectedRanges.length > 1) {
+//                        $(selection_target).val(selectedRanges.join(','));
+//                    }
+//                    else if (selectedRanges.length == 1) {
+//                        var r = selectedRanges[0];
+//                        if (r.start == r.end) {
+//                            var cell_value = activeSheet.getValue(target.row, target.col);
+//                            if (cell_value) {
+//                                $(selection_target).val(cell_value);
+//                            }
+//                            else {
+//                                // must have clicked elsewhere
+//                                selection_target = null;
+//                            }
+//                        }
+//                        else {
+//                            $(selection_target).val(r.start + ':' + r.end);
+//                        }
+//                    }
+//                }
+//            }
+//        });
+//    });
 </script>
 {%- endblock %}

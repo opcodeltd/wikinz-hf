@@ -66,10 +66,10 @@ def spreadjs():
         for rn in range(0, sheet.nrows):
             sd[rn] = []
             for cell in sheet.row(rn):
-                print cell.value
                 sd[rn].append(cell.value)
 
         sheets.append(sd)
+
     return dict(
         sheets = sheets
     )
