@@ -40,7 +40,7 @@ def import_begin():
     form = Form()
 
     if form.validate_on_submit():
-        open('import-in-progress.json','w').write(form.json_file.data)
+        form.json_file.data.to_file('import-in-progress.json')
         return redirect(url_for('index.import_review'))
 
     return dict(form=form)
@@ -50,5 +50,28 @@ def import_begin():
 def import_review():
     data = json.load(open('import-in-progress.json','r'))
     return {}
+
+@blueprint.route('/spreadjs', auth=auth.public, methods=['GET', 'POST'])
+@render_html()
+def spreadjs():
+    import xlrd
+    from collections import defaultdict
+
+    book = xlrd.open_workbook('app/samples/sample.xls')
+    first_sheet = book.sheet_by_index(0)
+
+    sheets = []
+    for sheet in book.sheets():
+        sd = defaultdict(dict)
+        for rn in range(0, sheet.nrows):
+            sd[rn] = []
+            for cell in sheet.row(rn):
+                print cell.value
+                sd[rn].append(cell.value)
+
+        sheets.append(sd)
+    return dict(
+        sheets = sheets
+    )
 
 app.register_blueprint(blueprint)

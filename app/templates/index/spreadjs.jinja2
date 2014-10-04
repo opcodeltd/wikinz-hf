@@ -1,0 +1,75 @@
+{%- set page_title = 'SpreadJS' -%}
+{%- extends 'base.jinja2' %}
+{%- block content -%}
+    <div id="ss" style="width:100%;height:400px;"></div>
+    <button type="button" id="capture_selection">Select series</button>
+{%- endblock -%}
+
+{%- block script %}
+    <!--Theme-->
+    <link href="http://cdn.wijmo.com/themes/aristo/jquery-wijmo.css" rel="stylesheet" type="text/css" />
+
+    <!--SpreadJS Widgets JavaScript-->
+    <script src="http://cdn.wijmo.com/spreadjs/jquery.wijmo.wijspread.all.3.20142.13.min.js" type="text/javascript"></script>
+
+    <!--SpreadJS Widgets CSS-->
+    <link href="http://cdn.wijmo.com/spreadjs/jquery.wijmo.wijspread.3.20142.13.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+    var sheet_data = {{ sheets | tojson | safe }};
+    $(document).ready(function(){
+        $("#ss").wijspread({sheetCount:5}); // create wijspread control
+        var spread = $("#ss").wijspread("spread"); // get instance of wijspread control
+
+
+
+        var s_no = 0;
+        _.each(sheet_data, function(s) {
+            var sheet = spread.getSheet(s_no);
+            sheet.isPaintSuspended(true);
+
+            var row = 0;
+            _.map(s, function(column_data) {
+                var col = 0;
+
+                _.each(column_data, function(cell_data) {
+                    //console.log(row, col, cell_data);
+                    sheet.setText(row, col, cell_data);
+                    col++;
+                });
+
+
+                row++;
+            });
+
+            sheet.isPaintSuspended(false);
+
+            s_no++;
+        });
+
+        var lg_style = new $.wijmo.wijspread.Style();
+        lg_style.backColor = "lightgreen";
+
+        var sheet = spread.getActiveSheet(); // get active worksheet of the wijspread control
+        sheet.setStyle(0, 0, lg_style, $.wijmo.wijspread.SheetArea.viewport);
+
+
+        var SelectionCollection = Backbone.Collection.extend({});
+        selections = new SelectionCollection();
+
+        $('#capture_selection').on('click', function() {
+            var sheet = spread.getActiveSheet(); // get active worksheet of the wijspread control
+            var ranges = sheet.getSelections().toArray();
+            _.each(ranges, function(range) {
+                console.log(range.row, range.rowCount, range.col, range.colCount);
+                selections.add({
+                    row: range.row,
+                    col: range.col,
+                    rowCount: range.rowCount,
+                    colCount: range.colCount,
+                });
+            });
+        });
+    });
+</script>
+{%- endblock %}

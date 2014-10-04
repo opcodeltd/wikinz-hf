@@ -1,0 +1,5 @@
+xlrd
+sdmx
+sqlalchemy
+flask-sqlalchemy
+psycopg2

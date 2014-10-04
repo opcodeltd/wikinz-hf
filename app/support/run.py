@@ -5,49 +5,31 @@ import app.model as m
 from trex.support import quantum
 
 @cli.command()
-def load_dummy_data():
+def load_data():
     app.drop_collections()
     app.create_collections()
 
-    data = [
+    users = [
         dict(
-            name = 'Year',
-            type = 'date',
-            series = ['2001', '2002', '2003', '2004'],
+            email = 'nigel@opcode.co.nz',
+            password = 'password',
+            display_name = 'Nigel McNie',
+            country = 'NZ',
+            timezone = 'Pacific/Auckland',
         ),
         dict(
-            name = 'Frogs',
-            type = 'number',
-            series = [1, 8, 2, 5],
-        ),
-        dict(
-            name = 'Ponies',
-            type = 'string',
-            series = ['thing', 'wobble', 'pony'],
+            email = 'richard@opcode.co.nz',
+            password = 'password',
+            display_name = 'Richard Clark',
+            country = 'NZ',
+            timezone = 'Pacific/Auckland',
         ),
     ]
 
+    for user_data in users:
+        u = m.User(
+            **user_data
+        )
+        u.set_password(user_data['password'])
+        u.save()
 
-    chartable = m.Chartable(
-        name = 'Test Chartable'
-    ).save()
-
-    for column_data in data:
-        type = column_data['type']
-        if type == 'date':
-            Model = m.ChartableColumnDate
-            model_data = [quantum.parse_date('%s-01-01' % x) for x in column_data['series']]
-        elif type == 'number':
-            Model = m.ChartableColumnNumber
-            model_data = column_data['series']
-        elif type == 'string':
-            Model = m.ChartableColumnString
-            model_data = column_data['series']
-        else:
-            raise Exception("Don't know that type")
-
-        Model(
-            chartable = chartable,
-            name = column_data['name'],
-            data = model_data,
-        ).save()

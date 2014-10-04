@@ -72,8 +72,16 @@
         </div>
 
 
-        {%- block script %}
+            <script src="{{ cdn('lib/jquery/dist/jquery.js') }}"></script>
+            <script src="{{ cdn('lib/underscore/underscore.js') }}"></script>
+            <script src="{{ cdn('lib/backbone/backbone.js') }}"></script>
+            <script src="{{ cdn('trex/js/trex.js') }}"></script>
+            <script src="{{ cdn('trex/js/trex.util.js') }}"></script>
+            <script src="{{ cdn('trex/js/trex.ux.js') }}"></script>
+            <script src="{{ cdn('trex/js/trex.form.js') }}"></script>
+            <script src="{{ cdn('trex/js/trex.form.files.js') }}"></script>
             <script src="http://fb.me/react-0.11.2.js"></script>
+        {%- block script %}
         {%- endblock %}
         <!-- served by {{ hostname }} -->
   </body>
