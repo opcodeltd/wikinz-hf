@@ -22,3 +22,5 @@ SODA data is not typed.  You're supposed to guess, and that sucks.  Applications
 
 There's an extension header (?) called "XSODA2" that supposedly returns type definitions for the document, but this seems to be undocumented and possibly deprecated.
 
+Socrata's server doesn't really exist as a usable open source implementation.
+
