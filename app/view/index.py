@@ -70,8 +70,19 @@ def spreadjs():
 
         sheets.append(sd)
 
+    column_view_tpl = """
+    <tr id="column-<%= model.cid %>">
+        <th data-select-target="input-title-<%= model.cid %>" class="th-title">Title:</th>
+        <td data-select-target="input-title-<%= model.cid %>" class="td-title"><input type="text" value="<%= model.get('title') %>"data-select-target="input-title-<%= model.cid %>" id="input-title-<%= model.cid %>" class="form-control"></td>
+        <th data-select-target="input-series-<%= model.cid %>" class="th-series">Series:</th>
+        <td data-select-target="input-series-<%= model.cid %>" class="td-series"><input type="text" value="<%= model.get('series') %>" data-select-target="input-series-<%= model.cid %>" id="input-series-<%= model.cid %>" class="form-control"></td>
+        <td class="controls"><button type="button" class="btn btn-danger remove">&times;</button>
+    </tr>
+    """
+
     return dict(
-        sheets = sheets
+        sheets = sheets,
+        column_view_tpl = column_view_tpl,
     )
 
 app.register_blueprint(blueprint)
