@@ -11,6 +11,9 @@ url = http://wikinz_hf.emo.dollyfish.net.nz
 # username = someuser
 # password = somepassword
 
+[postgresql]
+url = postgresql+psycopg2:///wikinz
+
 [test]
 server_port = 6999
 server_url = http://localhost:6999
