@@ -14,6 +14,30 @@ Our data has five states.  Data progresses through these states in order.
 **Chart** data is the visual representation of the series data, published on the Wiki New Zealand site.
 
 
+<!-- START HERE -->
+
+Raw:
+Raw data sources:  Lots of different sources. CSV, SDMX, whatever.
+
+-> PROCESS:  Chew them up, spit them out as JSON of data series and whatever metadata is available.
+
+Series:
+Consume JSON. Render it as a grid with spreadsheet-like controls.  Select series graphically, perhaps create derivative data.  Some are easy (structured data that Team David has already fixed), some are horrible and require a lot of careful selection.  Output is one or more series from a data source.  These can be queried via an API.
+
+[not yet] Composer:  Can transform series or combine them.
+
+Chart Designer:
+Select one or more series via the API.  Select a graph type.  Label graph, axes, etc. Get as much as possible of this automatically from metadata.  Output is a graph definition.
+
+Chart Renderer:
+Turns a graph definition into an actual chart.  Vega, D3, whatever.
+
+Site (Team Christian):  Put a user interface around the graphs.
+
+<!-- STOP HERE -->
+
+
+
 ## What other people use
 
 * [Socrata / SODA](http://socrata.com)
