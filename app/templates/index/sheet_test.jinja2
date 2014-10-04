@@ -1,0 +1,90 @@
+{%- set page_title = 'Home' -%}
+{%- extends 'base.jinja2' %}
+{%- block content -%}
+    <div class="row-fluid">
+        <div class="col-md-4">
+            <h3>Input 1</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>(A) A date (KEY)</th>
+                        <th>(B) Some NZD</th>
+                        <th>(C) Something else</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>DATE TIME</td>
+                        <td>NUMBER</td>
+                        <td>STRING</td>
+                    </tr>
+                    {% for i in range(0,30) %}
+                    <tr>
+                        <td>2010-01-01 11:02</td>
+                        <td>20.00</td>
+                        <td>Seven ducks</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h3>Input 2</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>(A) A date (KEY)</th>
+                        <th>(B) Some GBP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>DATE TIME</td>
+                        <td>NUMBER</td>
+                    </tr>
+                    {% for i in range(0,30) %}
+                    <tr>
+                        <td>2010-01-01 11:02</td>
+                        <td>10.00</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h3>Output</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>(A) Date</th>
+                        <th>(B) GBP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" name="A" value="1.A" />
+                        </td>
+                        <td>
+                            <input type="text" name="B" value="1.B * 0.48" />
+                        </td>
+                        <td>
+                            <input type="text" name="C" value="2.B - 1.B * 0.48" />
+                        </td>
+                    </tr>
+                    {% for i in range(0,30) %}
+                    <tr>
+                        <td>2010-01-01 11:02</td>
+                        <td>{{ 20 * 0.48 }}</td>
+                        <td>{{ 10 - 20 * 0.48 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{%- endblock -%}
+{% block script %}
+    <script src="http://fb.me/react-0.11.2.js"></script>
+    <script type="text/jsx" src="{{ cdn('js/sheet.js') }}"></script>
+{% endblock %}

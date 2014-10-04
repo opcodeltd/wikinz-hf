@@ -13,4 +13,10 @@ blueprint = AuthBlueprint('index', __name__)
 def index():
     return {}
 
+@blueprint.route('/sheet-test', auth=auth.public)
+@render_html()
+def sheet_test():
+    return {}
+
+
 app.register_blueprint(blueprint)
