@@ -99,15 +99,11 @@ function toCellName(row, col) {
 }
 
 $('.add-series').on('submit', function() {
-    console.log('calculating data to send');
-
     var column_data = [];
     
     columnList.forEach(function(column) {
-        column_data.push({ title: column.get('title'), values: $('#input-series-' + column.cid).data('values') });
+        column_data.push({ title: $('#input-title-' + column.cid).data('values'), values: $('#input-series-' + column.cid).data('values') });
     });
-
-    console.log(column_data);
 
     $('.add-series').append($('<input type="hidden" name="columns">').val(JSON.stringify(column_data)));
 });
