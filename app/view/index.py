@@ -128,13 +128,15 @@ def import_review():
     data = json.load(open('import-in-progress.json','r'))
     return {}
 
-@blueprint.route('/spreadjs', auth=auth.public, methods=['GET', 'POST'])
+@blueprint.route('/spreadjs/<source_id>', auth=auth.public, methods=['GET', 'POST'])
 @render_html()
-def spreadjs():
+def spreadjs(source_id):
+    source = m.Source.get_404(id=source_id)
+
     import xlrd
     from collections import defaultdict
 
-    book = xlrd.open_workbook('app/samples/sample.xls')
+    book = xlrd.open_workbook(file_contents=source.file.file.get().read())
     first_sheet = book.sheet_by_index(0)
 
     sheets = []
