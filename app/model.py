@@ -75,10 +75,10 @@ class Graph(Document):
     def as_chartable(self):
         out = {}
         out['source'] = {'title': self.table.title}
-        if self.axis:
+        if self.axis >= 0:
             categories = [c['value'] for c in self.table.data['cols'][self.axis]['values']]
         else:
-            categories = [c['title'] for c in self.table.data['cols']]
+            categories = [c['title']['value'] for c in self.table.data['cols']]
 
         out['axis'] = {
             'categories': categories
@@ -88,8 +88,8 @@ class Graph(Document):
 
         for index in self.cols:
             out['series'].append({
-                'title': self.table.data.cols[index].title.value,
-                'data': [c.value for c in self.table.data.cols[index].values]
+                'title': self.table.data['cols'][index]['title']['value'],
+                'data': [c['value'] for c in self.table.data['cols'][index]['values']]
             })
 
         return json.dumps(out)

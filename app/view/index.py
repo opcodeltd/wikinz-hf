@@ -95,17 +95,17 @@ def view_graph(graph_id):
 @render_html()
 def create_graph(table_id):
     table = m.Table.objects.get(id=table_id)
-    axes = [(None, 'Use column titles for X axis')]
-    columns = []
-    for i, col in enumerate(table.data.cols):
-        axes.append((i, col.title.value))
-        columns.append((i, col.title.value))
+    axes = [('-1', 'Use column titles for X axis')]
+    choices = []
+    for i, col in enumerate(table.data['cols']):
+        axes.append((str(i), col['title']['value']))
+        choices.append((str(i), col['title']['value']))
 
     class Form(wtf.Form):
         title = wtf.StringField('Title')
         description = wtf.StringField('Source')
         xaxis = wtf.SelectField('X Axis Column', choices=axes)
-        columns = wtf.CheckListField('Series', choices=columns)
+        columns = wtf.CheckListField('Series', choices=choices)
 
     form = Form()
 
@@ -114,8 +114,8 @@ def create_graph(table_id):
                  table=table,
                  created=quantum.now('Pacific/Auckland'),
                  creator=g.user,
-                 xaxis=form.xaxis.data,
-                 cols=form.columns.data)
+                 xaxis=int(form.xaxis.data),
+                 cols=[int(x) for x in form.columns.data])
         graph.save()
         flash("Graph created")
         return redirect(url_for('index.view_graph', graph_id=graph.id))
