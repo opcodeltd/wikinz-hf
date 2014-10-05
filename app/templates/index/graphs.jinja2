@@ -23,8 +23,8 @@
                     <td>{{ graph.creator.display_name }}</td>
                     <td>{{ graph.table.title }}</td>
                     <td class="text-right">
-                        <a class="btn btn-sm btn-default disabled" href="#">Edit</a>
                         <a class="btn btn-sm btn-default" href="{{ url_for('index.view_graph', graph_id=graph.id) }}">View</a>
+                        <a class="btn btn-sm btn-default" href="{{ url_for('index.edit_graph', graph_id=graph.id) }}">Edit</a>
                         <button class="btn btn-sm btn-danger trex-post-simple-confirm" data-href="{{ url_for('index.delete_graph', graph_id=graph.id) }}">Delete</button>
                     </td>
                 </tr>

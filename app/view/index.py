@@ -122,6 +122,34 @@ def create_graph(table_id):
 
     return dict(form=form)
 
+@blueprint.route('/graphs/<graph_id>/edit', auth=auth.public, methods=['GET','POST'])
+@render_html()
+def edit_graph(graph_id):
+    graph = m.Graph.objects.get(id=graph_id)
+    axes = [(None, 'Use column titles for X axis')]
+    columns = []
+    for i, col in enumerate(graph.table.data.cols):
+        axes.append((i, col.title.value))
+        columns.append((i, col.title.value))
+
+    class Form(wtf.Form):
+        title = wtf.StringField('Title')
+        description = wtf.StringField('Source')
+        xaxis = wtf.SelectField('X Axis Column', choices=axes)
+        columns = wtf.CheckListField('Series', choices=columns)
+
+    form = Form(obj=graph)
+
+    if form.validate_on_submit():
+        graph.title = form.title.data
+        graph.xaxis = form.xaxis.data
+        graph.cols = form.columns.data
+        graph.save()
+        flash("Graph updated")
+        return redirect(url_for('index.view_graph', graph_id=graph.id))
+
+    return dict(form=form)
+
 @blueprint.route('/source/<source_id>/delete', auth=auth.public, methods=['POST'])
 def delete_source(source_id):
     source = m.Source.objects.get(id=source_id)
