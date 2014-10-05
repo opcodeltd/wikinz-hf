@@ -68,7 +68,7 @@ def download_source(source_id):
 @blueprint.route('/tables', auth=auth.public)
 @render_html()
 def tables():
-    return dict(table=m.Table.objects().order_by('title'))
+    return dict(tables=m.Table.objects().order_by('title'))
 
 @blueprint.route('/tables/<table_id>/view', auth=auth.public)
 @render_html()
