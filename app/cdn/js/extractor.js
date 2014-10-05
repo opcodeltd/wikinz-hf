@@ -60,8 +60,6 @@ var columnListView = new Backbone.CollectionView({
 });
 
 
-columnList.add(new Column({series: 'A2:A10', title: 'A1'}));
-
 $('#add-series').on('click', function() {
     columnList.add({});
 });
