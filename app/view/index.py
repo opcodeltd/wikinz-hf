@@ -5,7 +5,7 @@ from app import app
 from app.support import auth
 from trex.flask import AuthBlueprint, render_html, flash
 from trex.support import wtf, quantum
-from flask import abort, g, redirect, url_for, make_response
+from flask import abort, g, redirect, url_for, make_response, request
 import json
 import app.model as m
 
@@ -165,7 +165,7 @@ def import_review():
     data = json.load(open('import-in-progress.json','r'))
     return {}
 
-@blueprint.route('/spreadjs/<source_id>', auth=auth.public, methods=['GET', 'POST'])
+@blueprint.route('/spreadjs/<source_id>', auth=auth.public)
 @render_html()
 def spreadjs(source_id):
     source = m.Source.get_404(id=source_id)
@@ -190,15 +190,45 @@ def spreadjs(source_id):
     <tr id="column-<%= model.cid %>">
         <th data-select-target="input-title-<%= model.cid %>" class="th-title">Title:</th>
         <td data-select-target="input-title-<%= model.cid %>" class="td-title"><input type="text" value="<%= model.get('title') %>"data-select-target="input-title-<%= model.cid %>" id="input-title-<%= model.cid %>" class="form-control"></td>
-        <th data-select-target="input-series-<%= model.cid %>" class="th-series">Series:</th>
+        <th data-select-target="input-series-<%= model.cid %>" class="th-series">Values:</th>
         <td data-select-target="input-series-<%= model.cid %>" class="td-series"><input type="text" value="<%= model.get('series') %>" data-select-target="input-series-<%= model.cid %>" id="input-series-<%= model.cid %>" class="form-control"></td>
-        <td class="controls"><button type="button" class="btn btn-danger remove">&times;</button>
+        <td class="controls"><button type="button" class="btn btn-danger remove">&times;</button><input type="hidden" class="input-dump-<%= model.cid %>" name="column-<%= model.cid %>"></td>
     </tr>
     """
 
     return dict(
+        source_id = source.id,
         sheets = sheets,
         column_view_tpl = column_view_tpl,
     )
+
+@blueprint.route('/spreadjs/<source_id>/save', auth=auth.public, methods=['POST'])
+def spreadjs_save(source_id):
+    source = m.Source.get_404(id=source_id)
+
+    column_data = json.loads(request.form.get('columns'))
+    print column_data
+
+    data = dict(cols=[])
+
+    for column in column_data:
+        data['cols'].append(dict(
+            title = dict(value=column['title']),
+            values = [dict(value=x) for x in column['values']],
+        ))
+
+    print data
+
+    table = m.Table(
+        title = request.form.get('table-title'),
+        description = request.form.get('table-description'),
+        creator = g.user,
+        source = source,
+        data = data,
+    )
+    table.save()
+
+    flash('Table created')
+    return redirect(url_for('index.view_table', table_id=table.id))
 
 app.register_blueprint(blueprint)
