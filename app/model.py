@@ -1,6 +1,7 @@
 # coding=utf-8
 
 from __future__ import absolute_import
+import json
 from app import app
 from trex.support import quantum
 from mongoengine import *
@@ -57,6 +58,8 @@ class Source(Document):
 class Graph(Document):
     """
     Graph/Chart definition
+
+    If axis is None, we use titles for the x axis, otherwise titles become labels for the series
     """
     created = QuantumField(default=quantum.now)
     creator = ReferenceField('User')
@@ -64,5 +67,28 @@ class Graph(Document):
     type = StringField()
     description = StringField()
     table = ReferenceField('Table')
-    xaxis = IntField()
-    # y axis selection?
+    axis = IntField()
+    cols = ListField(IntField())
+
+    def as_chartable(self):
+        out = {}
+        out['source'] = {'title': self.table.title}
+        if self.axis:
+            categories = [c.value for c in self.table.data.cols[self.axis].values]
+        else:
+            categories = [c.title for c in self.table.data.cols]
+
+        out['axis'] = {
+            'categories': categories
+        }
+
+        out['series'] = []
+
+        for index in self.cols:
+            out['series'].append({
+                'title': self.table.data.cols[index].title.value,
+                'data': [c.value for c in self.table.data.cols[index].values]
+            })
+
+        return json.dumps(out)
+

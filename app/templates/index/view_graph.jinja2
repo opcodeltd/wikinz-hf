@@ -1,0 +1,11 @@
+{%- set page_title = 'Home' -%}
+{%- extends 'base.jinja2' %}
+{%- block content -%}
+    <h2>Chart <span class="muted">&gt;</span> {{ chart.title }}</h2>
+    <pre>
+    {{ chart.as_chartable() }}
+    </pre>
+
+{%- endblock -%}
+{% block script %}
+{% endblock %}

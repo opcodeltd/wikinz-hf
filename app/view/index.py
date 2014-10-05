@@ -73,17 +73,54 @@ def tables():
 @blueprint.route('/tables/<table_id>/view', auth=auth.public)
 @render_html()
 def view_table(table_id):
-    table = m.Table.objects.get(id=source_id)
+    table = m.Table.objects.get(id=table_id)
     return {'table': table}
 
 @blueprint.route('/tables/<table_id>/download', auth=auth.public)
 def download_table(table_id):
-    table = m.Table.objects.get(id=source_id)
+    table = m.Table.objects.get(id=table_id)
     # SOMETHING GOES HERE TO MAKE THINGS GO
     csv_output = "OH GOD, NOT IMPLEMENTED, RUN ZOMBIES"
     response = make_response(csv_output)
     response.headers["Content-Disposition"] = "attachment; filename=table.csv"
     return response
+
+@blueprint.route('/graphs/<graph_id>/view', auth=auth.public)
+@render_html()
+def view_graph(graph_id):
+    graph = m.Graph.objects.get(id=graph_id)
+    return {'graph': graph}
+
+@blueprint.route('/tables/<table_id>/create_graph', auth=auth.public, methods=['GET','POST'])
+@render_html()
+def create_graph(table_id):
+    table = m.Table.objects.get(id=table_id)
+    axes = [(None, 'Use column titles for X axis')]
+    columns = []
+    for i, col in enumerate(table.data.cols):
+        axes.append((i, col.title.value))
+        columns.append((i, col.title.value))
+
+    class Form(wtf.Form):
+        title = wtf.StringField('Title')
+        description = wtf.StringField('Source')
+        xaxis = wtf.SelectField('X Axis Column', choices=axes)
+        columns = wtf.CheckListField('Series', choices=columns)
+
+    form = Form()
+
+    if form.validate_on_submit():
+        graph = m.Graph(title=form.title.data,
+                 table=table,
+                 created=quantum.now('Pacific/Auckland'),
+                 creator=g.user,
+                 xaxis=form.xaxis.data,
+                 cols=form.columns.data)
+        graph.save()
+        flash("Graph created")
+        return redirect(url_for('index.view_graph', graph_id=graph.id))
+
+    return dict(form=form)
 
 @blueprint.route('/source/<source_id>/delete', auth=auth.public, methods=['POST'])
 def delete_source(source_id):

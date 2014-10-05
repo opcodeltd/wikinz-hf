@@ -1,0 +1,43 @@
+{
+  "source": {
+    "date_processed": "2014-10-04 17:12:00 NZDT",
+    "origin": "oecd",
+    "origin_url": "http://stats.oecd.org/SDMX-JSON/dataflow/MEI_PRICES",
+    "title": "Consumer Prices (MEI)"
+  },
+  "definition": [
+    {
+      "Subject": "Consumer prices - all items"
+    },
+    {
+      "Location": "Australia"
+    },
+    {
+      "Measure": "Index, 2010=100"
+    },
+    {
+      "Frequency": "Annual"
+    }
+  ],
+  "axis": {
+      "categories" : ["AUD","NZ","SWE","EDF","WER"]
+  },
+  "series": [
+    {
+      "name": "Year 1800",
+      "data": [107, 31, 635, 203, 2]
+    },
+    {
+      "name": "Year 1810",
+      "data": [112, 50, 630, 205, 6]
+    },
+    {
+      "name": "Year 1820",
+      "data": [103, 90, 625, 140, 12]
+    },
+    {
+      "name": "Year 1830",
+      "data": [102, 39, 615, 103, 23]
+    }
+  ]
+}

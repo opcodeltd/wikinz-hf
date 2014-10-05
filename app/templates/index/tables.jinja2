@@ -24,7 +24,7 @@
                     <td>{{ table.source.title }}</td>
                     <td class="text-right">
                         <a class="btn btn-sm btn-default disabled" href="#">Edit</a>
-                        <a class="btn btn-sm btn-default" href="{{ url_for('index.charter', table_id=table.id) }}">Make graph</a>
+                        <a class="btn btn-sm btn-default" href="{{ url_for('index.create_graph', table_id=table.id) }}">Make graph</a>
                         <a class="btn btn-sm btn-default" href="{{ url_for('index.download_table', table_id=table.id) }}">Download</a>
                         <button class="btn btn-sm btn-danger trex-post-simple-confirm" data-href="{{ url_for('index.delete_table', table_id=table.id) }}">Delete</button>
                     </td>

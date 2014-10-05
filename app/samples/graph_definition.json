@@ -1,0 +1,11 @@
+{
+  "template": "graph_templates/column_hc_template.txt",
+  "title": "Canadian GDPV",
+  "subtitle": "Source : OECD",
+  "yaxis": "Consumer index 100 = 2010",
+  "sources": [
+    {
+      "file": "out_data/sample.json"
+    }
+  ]
+}
