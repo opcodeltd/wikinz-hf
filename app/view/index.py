@@ -173,7 +173,7 @@ def delete_table(table_id):
 @blueprint.route('/graphs', auth=auth.public)
 @render_html()
 def graphs():
-    return dict(table=m.Graph.objects().order_by('title'))
+    return dict(graphs=m.Graph.objects().order_by('title'))
 
 @blueprint.route('/graph/<graph_id>/delete', auth=auth.public, methods=['POST'])
 def delete_graph(graph_id):
