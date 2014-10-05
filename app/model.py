@@ -36,10 +36,12 @@ class Table(Document):
 
     def as_rows(self):
         rows = []
-        for x in range(0, len(self.data.cols[0].values)):
+        for x in range(0, len(self.data['cols'][0]['values'])):
             row = []
-            for y in range(0, len(self.data.cols)):
-                row.append(self.data.cols[y][x])
+            for y in range(0, len(self.data['cols'])):
+                print x,y,self.data['cols']
+
+                row.append(self.data['cols'][y]['values'][x])
             rows.append(row)
         return rows
 
@@ -74,9 +76,9 @@ class Graph(Document):
         out = {}
         out['source'] = {'title': self.table.title}
         if self.axis:
-            categories = [c.value for c in self.table.data.cols[self.axis].values]
+            categories = [c['value'] for c in self.table.data['cols'][self.axis]['values']]
         else:
-            categories = [c.title for c in self.table.data.cols]
+            categories = [c['title'] for c in self.table.data['cols']]
 
         out['axis'] = {
             'categories': categories
