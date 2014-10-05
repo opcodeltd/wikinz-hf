@@ -26,7 +26,21 @@ class Table(Document):
     title = StringField()
     description = StringField()
     source = ReferenceField('Source') # This could be None if the source is another table or something
+    """
+    Data should look like this:
+
+    { cols: [ { title: { value: 'blah' }, values: [ { 'value': 0 }, {'value': 10} ] } ] }
+    """
     data = DynamicField()
+
+    def as_rows(self):
+        rows = []
+        for x in range(0, len(self.data.cols[0].values)):
+            row = []
+            for y in range(0, len(self.data.cols)):
+                row.append(self.data.cols[y][x])
+            rows.append(row)
+        return rows
 
 
 class Source(Document):
@@ -47,6 +61,8 @@ class Graph(Document):
     created = QuantumField(default=quantum.now)
     creator = ReferenceField('User')
     title = StringField()
+    type = StringField()
     description = StringField()
     table = ReferenceField('Table')
-    # x and y axis selection?
+    xaxis = IntField()
+    # y axis selection?

@@ -70,9 +70,14 @@ def download_source(source_id):
 def tables():
     return dict(table=m.Table.objects().order_by('title'))
 
+@blueprint.route('/tables/<table_id>/view', auth=auth.public)
+@render_html()
+def view_table(table_id):
+    table = m.Table.objects.get(id=source_id)
+    return {'table': table}
 
 @blueprint.route('/tables/<table_id>/download', auth=auth.public)
-def download_table(source_id):
+def download_table(table_id):
     table = m.Table.objects.get(id=source_id)
     # SOMETHING GOES HERE TO MAKE THINGS GO
     csv_output = "OH GOD, NOT IMPLEMENTED, RUN ZOMBIES"
