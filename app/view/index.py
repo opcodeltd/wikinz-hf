@@ -114,7 +114,7 @@ def create_graph(table_id):
                  table=table,
                  created=quantum.now('Pacific/Auckland'),
                  creator=g.user,
-                 xaxis=int(form.xaxis.data),
+                 axis=int(form.xaxis.data),
                  cols=[int(x) for x in form.columns.data])
         graph.save()
         flash("Graph created")
@@ -142,7 +142,7 @@ def edit_graph(graph_id):
 
     if form.validate_on_submit():
         graph.title = form.title.data
-        graph.xaxis = form.xaxis.data
+        graph.axis = form.xaxis.data
         graph.cols = form.columns.data
         graph.save()
         flash("Graph updated")

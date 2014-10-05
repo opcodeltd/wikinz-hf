@@ -8,7 +8,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                {% for col in table.data %}
+                {% for col in table.data.cols %}
                     <th>{{ col.title.value }}</th>
                 {% endfor %}
             </tr>
