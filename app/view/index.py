@@ -68,7 +68,7 @@ def download_source(source_id):
 @blueprint.route('/tables', auth=auth.public)
 @render_html()
 def tables():
-    return dict(table=m.Table.objects().order_by('title'))
+    return dict(tables=m.Table.objects().order_by('title'))
 
 @blueprint.route('/tables/<table_id>/view', auth=auth.public)
 @render_html()
@@ -235,7 +235,6 @@ def spreadjs_save(source_id):
     source = m.Source.get_404(id=source_id)
 
     column_data = json.loads(request.form.get('columns'))
-    print column_data
 
     data = dict(cols=[])
 
@@ -244,8 +243,6 @@ def spreadjs_save(source_id):
             title = dict(value=column['title']),
             values = [dict(value=x) for x in column['values']],
         ))
-
-    print data
 
     table = m.Table(
         title = request.form.get('table-title'),
