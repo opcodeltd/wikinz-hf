@@ -181,7 +181,7 @@ def graphs():
 
 @blueprint.route('/graph/<graph_id>/delete', auth=auth.public, methods=['POST'])
 def delete_graph(graph_id):
-    graph = m.graph.objects.get(id=graph_id)
+    graph = m.Graph.objects.get(id=graph_id)
     graph.delete()
     flash('Graph deleted')
     return redirect(url_for('index.graphs'), 302)
