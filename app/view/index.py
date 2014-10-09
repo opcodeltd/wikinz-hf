@@ -109,8 +109,8 @@ def create_graph(table_id):
         title = wtf.StringField('Graph Title')
         type  = wtf.SelectField('Type', choices=m.Graph.type_choices)
         xaxis = wtf.SelectField('X Axis Column', choices=axes)
+        yaxis_title = wtf.TextField('Y Axis title')
         columns = wtf.CheckListField('Series', choices=choices)
-        yaxis_title = wtf.TextField('Series title')
 
     form = Form()
 
@@ -142,8 +142,8 @@ def edit_graph(graph_id):
         title = wtf.StringField('Graph title')
         type  = wtf.SelectField('Type', choices=m.Graph.type_choices)
         xaxis = wtf.SelectField('X Axis Column', choices=axes, default=graph.axis)
+        yaxis_title = wtf.TextField('Y Axis title')
         columns = wtf.CheckListField('Series', choices=choices, default=graph.cols)
-        yaxis_title = wtf.TextField('Series title')
 
     form = Form(obj=graph)
 
