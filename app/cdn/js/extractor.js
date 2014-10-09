@@ -72,7 +72,7 @@ $('#column-table').removeAttr('tabindex');
 // Spreadsheet stuff
 function load_spreadsheet(spread) {
     var s_no = 0;
-    _.each([SHEET_DATA[0]], function(s) {
+    _.each(SHEET_DATA, function(s) {
         var sheet = spread.getSheet(s_no);
         sheet.isPaintSuspended(true);
 
@@ -111,7 +111,7 @@ $('.add-series').on('submit', function() {
 });
 
 $(document).ready(function(){
-    $("#ss").wijspread({sheetCount:1}); // create wijspread control
+    $("#ss").wijspread({sheetCount:SHEET_DATA.length}); // create wijspread control
     var spread = $("#ss").wijspread("spread"); // get instance of wijspread control
     load_spreadsheet(spread);
 
