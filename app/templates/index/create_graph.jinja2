@@ -6,6 +6,12 @@
     </div>
     <div class="row">
         <div class="col-xs-8">
+        <dl class="dl-horizontal">
+            <dt>Table:</dt>
+            <dd>{{ table.title }}<br><p class="text-muted">{{ table.description }}</p></dd>
+            <dt>Source:<dt>
+            <dd><strong>{{ table.source.title }}</strong> {% if table.source.source %}from {{ table.source.source }}{% endif %} imported by {{ table.source.creator.display_name }} {{ table.source.created|quantum('datetime') }}</dd>
+        </dl>
         {{ trex.form_render(form, 'Create graph') }}
         </div>
     </div>

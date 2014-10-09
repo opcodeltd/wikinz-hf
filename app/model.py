@@ -66,13 +66,20 @@ class Graph(Document):
     created = QuantumField(default=quantum.now)
     creator = ReferenceField('User')
     title = StringField()
-    type = StringField()
     description = StringField()
+    type = StringField()
     table = ReferenceField('Table')
     axis = IntField()
     cols = ListField(IntField())
+    yaxis_title = StringField()
 
-    def as_chartable(self):
+    type_choices = [
+        ('bar', 'Bar'),
+        ('column', 'Column'),
+        ('line', 'Line'),
+    ]
+
+    def as_chartable(self, as_json=False):
         out = {}
         out['source'] = {'title': self.table.title}
         if self.axis >= 0:
@@ -88,9 +95,14 @@ class Graph(Document):
 
         for index in self.cols:
             out['series'].append({
-                'title': self.table.data['cols'][index]['title']['value'],
+                'name': self.table.data['cols'][index]['title']['value'],
                 'data': [c['value'] for c in self.table.data['cols'][index]['values']]
             })
 
-        return json.dumps(out)
+        out['yaxis'] = dict(title=self.yaxis_title)
+
+        if as_json:
+            return json.dumps(out)
+
+        return out
 

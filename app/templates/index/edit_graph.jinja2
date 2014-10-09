@@ -1,9 +1,20 @@
 {%- set page_title = 'Home' -%}
+{%- set table = graph.table -%}
 {%- extends 'base.jinja2' %}
 {%- block content -%}
-    <h2>Edit graph</h2>
+    <div class="page-header">
+        <h1>Edit graph</h1>
+    </div>
     <div class="row">
-        {{ trex.form_render(form, 'Update') }}
+        <div class="col-xs-8">
+        <dl class="dl-horizontal">
+            <dt>Table:</dt>
+            <dd>{{ table.title }}<br><p class="text-muted">{{ table.description }}</p></dd>
+            <dt>Source:<dt>
+            <dd><strong>{{ table.source.title }}</strong> {% if table.source.source %}from {{ table.source.source }}{% endif %} imported by {{ table.source.creator.display_name }} {{ table.source.created|quantum('datetime') }}</dd>
+        </dl>
+        {{ trex.form_render(form, 'Update graph') }}
+        </div>
     </div>
 {%- endblock -%}
 {% block script %}

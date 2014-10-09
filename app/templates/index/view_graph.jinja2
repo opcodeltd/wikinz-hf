@@ -1,11 +1,37 @@
 {%- set page_title = 'Home' -%}
+{%- set graph_data = graph.as_chartable() -%}
 {%- extends 'base.jinja2' %}
 {%- block content -%}
     <div class="page-header">
+        <a href="{{ url_for('index.edit_graph', graph_id=graph.id) }}" class="btn btn-primary pull-right">Edit graph</a>
         <h1>Graph <span class="muted">&gt;</span> {{ graph.title }}</h1>
     </div>
-    <pre>{{ graph.as_chartable() }}</pre>
+    <div id="graph" style="width: 100%; height: 80vh;"></div>
+    <h2>Raw data</h2>
+    <pre>{{ graph.as_chartable(as_json=true) }}</pre>
 
 {%- endblock -%}
 {% block script %}
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script>
+        $(function () {
+            $('#graph').highcharts({
+                chart: {
+                    type: {{ graph.type | tojson | safe }}
+                },
+                title: {
+                    text: {{ graph.title | tojson | safe }}
+                },
+                xAxis: {
+                    categories: {{ graph_data.axis.categories | tojson | safe }}
+                },
+                yAxis: {
+                    title: {
+                        text: {{ graph_data.yaxis.title | tojson | safe }}
+                    }
+                },
+                series: {{ graph_data.series | tojson | safe }}
+            });
+        });
+    </script>
 {% endblock %}

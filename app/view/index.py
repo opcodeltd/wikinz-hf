@@ -106,25 +106,27 @@ def create_graph(table_id):
         choices.append((str(i), col['title']['value']))
 
     class Form(wtf.Form):
-        title = wtf.StringField('Title')
-        description = wtf.StringField('Source')
+        title = wtf.StringField('Graph Title')
+        type  = wtf.SelectField('Type', choices=m.Graph.type_choices)
         xaxis = wtf.SelectField('X Axis Column', choices=axes)
         columns = wtf.CheckListField('Series', choices=choices)
+        yaxis_title = wtf.TextField('Series title')
 
     form = Form()
 
     if form.validate_on_submit():
         graph = m.Graph(title=form.title.data,
                  table=table,
-                 created=quantum.now('Pacific/Auckland'),
                  creator=g.user,
+                 type=form.type.data,
                  axis=int(form.xaxis.data),
                  cols=[int(x) for x in form.columns.data])
+                 yaxis_title=form.yaxis_title.data
         graph.save()
         flash("Graph created")
         return redirect(url_for('index.view_graph', graph_id=graph.id))
 
-    return dict(form=form)
+    return dict(form=form, table=table)
 
 @blueprint.route('/graphs/<graph_id>/edit', auth=auth.login, methods=['GET','POST'])
 @render_html()
@@ -137,22 +139,25 @@ def edit_graph(graph_id):
         choices.append((str(i), col['title']['value']))
 
     class Form(wtf.Form):
-        title = wtf.StringField('Title')
-        description = wtf.StringField('Source')
-        xaxis = wtf.SelectField('X Axis Column', choices=axes)
-        columns = wtf.CheckListField('Series', choices=choices)
+        title = wtf.StringField('Graph title')
+        type  = wtf.SelectField('Type', choices=m.Graph.type_choices)
+        xaxis = wtf.SelectField('X Axis Column', choices=axes, default=graph.axis)
+        columns = wtf.CheckListField('Series', choices=choices, default=graph.cols)
+        yaxis_title = wtf.TextField('Series title')
 
     form = Form(obj=graph)
 
     if form.validate_on_submit():
         graph.title = form.title.data
+        graph.type = form.type.data
         graph.axis = form.xaxis.data
         graph.cols = form.columns.data
+        graph.yaxis_title = form.yaxis_title.data
         graph.save()
         flash("Graph updated")
         return redirect(url_for('index.view_graph', graph_id=graph.id))
 
-    return dict(form=form)
+    return dict(form=form, graph=graph)
 
 @blueprint.route('/source/<source_id>/delete', auth=auth.login, methods=['POST'])
 def delete_source(source_id):
