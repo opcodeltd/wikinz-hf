@@ -3,7 +3,7 @@
 <html class="{{ ' '.join(html_classes) }}{% if g.user %} user-role-{{ g.user.role }}{% endif %}" id="{{ html_id }}" data-csrf-token="{{ csrf_token() }}">
     <head>
         <meta charset="utf-8">
-        <title>{{ page_title|page_title('Wiki New Zealand Hackfest') }}</title>
+        <title>{{ page_title|page_title('Wiki New Zealand Pipeline Prototype') }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ cdn('less/app.css') }}">
         {% block head %}{% endblock %}
@@ -22,7 +22,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="{{ url_for('index.index') }}">Wiki New Zealand Hackfest</a>
+                        <a class="navbar-brand" href="{{ url_for('index.index') }}">Wiki New Zealand Pipeline Prototype</a>
                      </div>
 
                     <div class="collapse navbar-collapse" id="navbar-collapse-1">
@@ -61,7 +61,7 @@
                 <div class="container-fluid">
 
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="{{ url_for('index.index') }}">Wiki New Zealand Hackfest</a>
+                        <a class="navbar-brand" href="{{ url_for('index.index') }}">Wiki New Zealand Pipeline Prototype</a>
                     </div>
                         <ul class="nav navbar-nav navbar-right">
                             {{ trex.bootstrap_nav_item('trex.auth.login', 'Login') }}

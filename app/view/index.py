@@ -16,6 +16,9 @@ blueprint = AuthBlueprint('index', __name__)
 @blueprint.route('/', auth=auth.public)
 @render_html()
 def index():
+    if not g.user:
+        return dict(_template='index_anonymous')
+
     return {}
 
 @blueprint.route('/sheet-test', auth=auth.public)
@@ -33,7 +36,7 @@ def import_test():
 def import_begin():
     class Form(wtf.Form):
         title = wtf.StringField('Title')
-        source = wtf.StringField('Source')
+        source = wtf.StringField('Source', description='e.g. Statistics New Zealand')
         data_file = wtf.FileField(
             'File to import',
             [wtf.validators.Required()],
@@ -49,6 +52,7 @@ def import_begin():
                  created=quantum.now('Pacific/Auckland'),
                  creator=g.user,
                  filename=form.data_file.data.file.filename).save()
+        flash('Source "%s" added' % form.title.data)
         return redirect(url_for('index.sources'))
 
     return dict(form=form)

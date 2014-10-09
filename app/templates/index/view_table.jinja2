@@ -1,7 +1,10 @@
-{%- set page_title = 'Home' -%}
+{%- set page_title = 'Table: %s'|format(table.title) -%}
 {%- extends 'base.jinja2' %}
 {%- block content -%}
-    <h2>Table <span class="muted">&gt;</span> {{ table.title }}</h2>
+    <div class="page-header">
+        <a href="{{ url_for('index.create_graph', table_id=table.id) }}" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-stats"></span> Make graph from this table</a>
+        <h1>Table <span class="muted">&gt;</span> {{ table.title }}</h1>
+    </div>
     <p>
     {{ table.description }}
     </p>

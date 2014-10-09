@@ -1,10 +1,10 @@
-{%- set page_title = 'Home' -%}
+{%- set page_title = 'Sources' -%}
 {%- extends 'base.jinja2' %}
 {%- block content -%}
-    <div class="pull-right">
-        <a class="btn btn-primary" href="{{ url_for('index.import_begin') }}">Import new source</a>
+    <div class="page-header">
+        <a class="btn btn-primary pull-right" href="{{ url_for('index.import_begin') }}"><span class="glyphicon glyphicon-import"></span> Import an Excel file</a>
+        <h1>Available sources</h1>
     </div>
-    <h2>Available sources</h2>
     <table class="table table-striped">
         <thead>
             <tr>

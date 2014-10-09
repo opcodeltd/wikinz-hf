@@ -1,9 +1,13 @@
-{%- set page_title = 'Home' -%}
+{%- set page_title = 'Create graph' -%}
 {%- extends 'base.jinja2' %}
 {%- block content -%}
-    <h2>Create graph</h2>
+    <div class="page-header">
+        <h1>Create graph</h1>
+    </div>
     <div class="row">
-        {{ trex.form_render(form, 'Create') }}
+        <div class="col-xs-8">
+        {{ trex.form_render(form, 'Create graph') }}
+        </div>
     </div>
 {%- endblock -%}
 {% block script %}

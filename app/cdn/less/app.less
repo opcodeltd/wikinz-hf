@@ -3,6 +3,27 @@
 
 @import "../trex/less/form-bs3.less";
 
+#endpoint-index-index {
+    .jumbotron {
+        .clearfix();
+    }
+    #login-form {
+        float: right;
+        width: 290px;
+
+        @media (max-width: @screen-xs-max) {
+            & {
+                float: none;
+                width: auto;
+            }
+        }
+
+        input {
+            margin-bottom: 10px;
+        }
+    }
+}
+
 .add-series {
     margin: 0 10px 30px;
 

@@ -1,10 +1,9 @@
-{%- set page_title = 'Home' -%}
+{%- set page_title = 'Graphs' -%}
 {%- extends 'base.jinja2' %}
 {%- block content -%}
-    <div class="pull-right">
-        <a class="btn btn-primary" href="{{ url_for('index.tables') }}">Make new graph</a>
+    <div class="page-header">
+        <h1>Available graphs</h1>
     </div>
-    <h2>Available graphs</h2>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -32,6 +31,7 @@
         </tbody>
     </table>
 
+    <div class="well text-center">To make a new graph, go to <a href="{{ url_for('index.tables') }}">tables</a> and choose "Make graph" for the appropriate table.</div>
 {%- endblock -%}
 {% block script %}
 {% endblock %}

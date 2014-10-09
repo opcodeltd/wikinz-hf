@@ -2,9 +2,13 @@
 {%- extends 'base.jinja2' %}
 {%- block content -%}
     <div class="page-header">
-        <h1>Wiki New Zealand Hackfest</h1>
+        <h1>Wiki New Zealand Pipeline Prototype</h1>
     </div>
-    <p>
-        THINGS GO HERE> OMG THINGS.
-    </p>
+    <p>This prototype demonstrates a pipeline for taking data from its source through to a graph, with the following steps:</p>
+    <ol>
+        <li>Import of <a href="{{ url_for('index.sources') }}">source data</a> into machine-readable format (for the moment from Excel).</li>
+        <li>Extraction of data from sources into <a href="{{ url_for('index.tables') }}">tabular form</a>, from which series can be drawn.</li>
+        <li>Creation of <a href="{{ url_for('index.graphs') }}">graphs</a> from the series data.</li>
+    </ol>
+    <p><a href="{{ url_for('index.import_begin') }}" class="btn btn-primary"><span class="glyphicon glyphicon-import"></span> Import an Excel file</a></p>
 {%- endblock -%}

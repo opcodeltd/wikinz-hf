@@ -1,10 +1,9 @@
-{%- set page_title = 'Home' -%}
+{%- set page_title = 'Tables' -%}
 {%- extends 'base.jinja2' %}
 {%- block content -%}
-    <div class="pull-right">
-        <a class="btn btn-primary" href="{{ url_for('index.sources') }}">Make new table</a>
+    <div class="page-header">
+        <h1>Available tables</h1>
     </div>
-    <h2>Available tables</h2>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -33,6 +32,8 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <div class="well text-center">To make a new table, go to <a href="{{ url_for('index.sources') }}">sources</a> and choose "Extract table" for the appropriate source.</div>
 
 {%- endblock -%}
 {% block script %}
