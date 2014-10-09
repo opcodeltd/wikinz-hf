@@ -66,6 +66,7 @@ $('#add-series').on('click', function() {
 });
 
 columnListView.render();
+$('#column-table').removeAttr('tabindex');
 
 
 // Spreadsheet stuff
