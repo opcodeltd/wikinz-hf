@@ -22,8 +22,9 @@ $(document).on('click', function(e) {
     }
 });
 
-// make the spreadsheet smaller
-// take tabindex off the table
+$('#source-title, #source-description').on('focus', function(e) {
+    set_select_target($(e.target).attr('data-select-target'));
+});
 
 
 // Backbone stuff
