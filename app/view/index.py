@@ -120,8 +120,8 @@ def create_graph(table_id):
                  creator=g.user,
                  type=form.type.data,
                  axis=int(form.xaxis.data),
-                 cols=[int(x) for x in form.columns.data])
-                 yaxis_title=form.yaxis_title.data
+                 cols=[int(x) for x in form.columns.data],
+                 yaxis_title=form.yaxis_title.data)
         graph.save()
         flash("Graph created")
         return redirect(url_for('index.view_graph', graph_id=graph.id))
