@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-git clone --recursive git@github.com:opcode/wikinz-hf
+git clone --recursive git@github.com:opcodeltd/wikinz-hf
 
 cd wikinz-hf
 
