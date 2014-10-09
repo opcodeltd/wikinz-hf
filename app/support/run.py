@@ -11,18 +11,41 @@ def load_data():
 
     users = [
         dict(
-            email = 'nigel@opcode.co.nz',
-            password = 'password',
+            email        = 'nigel@opcode.co.nz',
+            password     = 'password',
             display_name = 'Nigel McNie',
-            country = 'NZ',
-            timezone = 'Pacific/Auckland',
+            country      = 'NZ',
+            timezone     = 'Pacific/Auckland',
+            role         = 'developer',
         ),
         dict(
-            email = 'richard@opcode.co.nz',
-            password = 'password',
+            email        = 'richard@opcode.co.nz',
+            password     = 'password',
             display_name = 'Richard Clark',
-            country = 'NZ',
-            timezone = 'Pacific/Auckland',
+            country      = 'NZ',
+            timezone     = 'Pacific/Auckland',
+            role         = 'developer',
+        ),
+        dict(
+            email        = 'lilliangrace@wikinewzealand.org',
+            password     = 'password',
+            display_name = 'Lillian Grace',
+            country      = 'NZ',
+            timezone     = 'Pacific/Auckland',
+        ),
+        dict(
+            email        = 'amyhooper@wikinewzealand.org',
+            password     = 'password',
+            display_name = 'Amy Hooper',
+            country      = 'NZ',
+            timezone     = 'Pacific/Auckland',
+        ),
+        dict(
+            email        = 'rob@prng.net',
+            password     = 'password',
+            display_name = 'Rob Isaac',
+            country      = 'NZ',
+            timezone     = 'Pacific/Auckland',
         ),
     ]
 
