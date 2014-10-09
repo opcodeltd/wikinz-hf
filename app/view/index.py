@@ -21,17 +21,17 @@ def index():
 
     return {}
 
-@blueprint.route('/sheet-test', auth=auth.public)
+@blueprint.route('/sheet-test', auth=auth.login)
 @render_html()
 def sheet_test():
     return {}
 
-@blueprint.route('/import-test', auth=auth.public)
+@blueprint.route('/import-test', auth=auth.login)
 @render_html()
 def import_test():
     return {}
 
-@blueprint.route('/import-begin', auth=auth.public, methods=['GET','POST'])
+@blueprint.route('/import-begin', auth=auth.login, methods=['GET','POST'])
 @render_html()
 def import_begin():
     class Form(wtf.Form):
@@ -57,30 +57,30 @@ def import_begin():
 
     return dict(form=form)
 
-@blueprint.route('/sources', auth=auth.public)
+@blueprint.route('/sources', auth=auth.login)
 @render_html()
 def sources():
     return dict(sources=m.Source.objects().order_by('title'))
 
-@blueprint.route('/sources/<source_id>/download', auth=auth.public)
+@blueprint.route('/sources/<source_id>/download', auth=auth.login)
 def download_source(source_id):
     source = m.Source.objects.get(id=source_id)
     response = make_response(source.file.file.read())
     response.headers["Content-Disposition"] = "attachment; filename=%s" % source.filename
     return response
 
-@blueprint.route('/tables', auth=auth.public)
+@blueprint.route('/tables', auth=auth.login)
 @render_html()
 def tables():
     return dict(tables=m.Table.objects().order_by('title'))
 
-@blueprint.route('/tables/<table_id>/view', auth=auth.public)
+@blueprint.route('/tables/<table_id>/view', auth=auth.login)
 @render_html()
 def view_table(table_id):
     table = m.Table.objects.get(id=table_id)
     return {'table': table}
 
-@blueprint.route('/tables/<table_id>/download', auth=auth.public)
+@blueprint.route('/tables/<table_id>/download', auth=auth.login)
 def download_table(table_id):
     table = m.Table.objects.get(id=table_id)
     # SOMETHING GOES HERE TO MAKE THINGS GO
@@ -89,13 +89,13 @@ def download_table(table_id):
     response.headers["Content-Disposition"] = "attachment; filename=table.csv"
     return response
 
-@blueprint.route('/graphs/<graph_id>/view', auth=auth.public)
+@blueprint.route('/graphs/<graph_id>/view', auth=auth.login)
 @render_html()
 def view_graph(graph_id):
     graph = m.Graph.objects.get(id=graph_id)
     return {'graph': graph}
 
-@blueprint.route('/tables/<table_id>/create_graph', auth=auth.public, methods=['GET','POST'])
+@blueprint.route('/tables/<table_id>/create_graph', auth=auth.login, methods=['GET','POST'])
 @render_html()
 def create_graph(table_id):
     table = m.Table.objects.get(id=table_id)
@@ -126,7 +126,7 @@ def create_graph(table_id):
 
     return dict(form=form)
 
-@blueprint.route('/graphs/<graph_id>/edit', auth=auth.public, methods=['GET','POST'])
+@blueprint.route('/graphs/<graph_id>/edit', auth=auth.login, methods=['GET','POST'])
 @render_html()
 def edit_graph(graph_id):
     graph = m.Graph.objects.get(id=graph_id)
@@ -154,7 +154,7 @@ def edit_graph(graph_id):
 
     return dict(form=form)
 
-@blueprint.route('/source/<source_id>/delete', auth=auth.public, methods=['POST'])
+@blueprint.route('/source/<source_id>/delete', auth=auth.login, methods=['POST'])
 def delete_source(source_id):
     source = m.Source.objects.get(id=source_id)
     if m.Table.objects(source=source).count() > 0:
@@ -164,7 +164,7 @@ def delete_source(source_id):
     flash('Source deleted')
     return redirect(url_for('index.sources'), 302)
 
-@blueprint.route('/tables/<table_id>/delete', auth=auth.public, methods=['POST'])
+@blueprint.route('/tables/<table_id>/delete', auth=auth.login, methods=['POST'])
 def delete_table(table_id):
     table = m.Table.objects.get(id=table_id)
     if m.Graph.objects(table=table).count() > 0:
@@ -174,30 +174,30 @@ def delete_table(table_id):
     flash('Table deleted')
     return redirect(url_for('index.tables'), 302)
 
-@blueprint.route('/graphs', auth=auth.public)
+@blueprint.route('/graphs', auth=auth.login)
 @render_html()
 def graphs():
     return dict(graphs=m.Graph.objects().order_by('title'))
 
-@blueprint.route('/graph/<graph_id>/delete', auth=auth.public, methods=['POST'])
+@blueprint.route('/graph/<graph_id>/delete', auth=auth.login, methods=['POST'])
 def delete_graph(graph_id):
     graph = m.Graph.objects.get(id=graph_id)
     graph.delete()
     flash('Graph deleted')
     return redirect(url_for('index.graphs'), 302)
 
-@blueprint.route('/table/<table_id>/charter', auth=auth.public, methods=['GET', 'POST'])
+@blueprint.route('/table/<table_id>/charter', auth=auth.login, methods=['GET', 'POST'])
 @render_html()
 def charter():
     return {}
 
-@blueprint.route('/import-review', auth=auth.public, methods=['GET', 'POST'])
+@blueprint.route('/import-review', auth=auth.login, methods=['GET', 'POST'])
 @render_html()
 def import_review():
     data = json.load(open('import-in-progress.json','r'))
     return {}
 
-@blueprint.route('/spreadjs/<source_id>', auth=auth.public)
+@blueprint.route('/spreadjs/<source_id>', auth=auth.login)
 @render_html()
 def spreadjs(source_id):
     source = m.Source.get_404(id=source_id)
@@ -234,7 +234,7 @@ def spreadjs(source_id):
         column_view_tpl = column_view_tpl,
     )
 
-@blueprint.route('/spreadjs/<source_id>/save', auth=auth.public, methods=['POST'])
+@blueprint.route('/spreadjs/<source_id>/save', auth=auth.login, methods=['POST'])
 def spreadjs_save(source_id):
     source = m.Source.get_404(id=source_id)
 
