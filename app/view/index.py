@@ -131,16 +131,16 @@ def create_graph(table_id):
 def edit_graph(graph_id):
     graph = m.Graph.objects.get(id=graph_id)
     axes = [(None, 'Use column titles for X axis')]
-    columns = []
-    for i, col in enumerate(graph.table.data.cols):
-        axes.append((i, col.title.value))
-        columns.append((i, col.title.value))
+    choices = []
+    for i, col in enumerate(graph.table.data['cols']):
+        axes.append((str(i), col['title']['value']))
+        choices.append((str(i), col['title']['value']))
 
     class Form(wtf.Form):
         title = wtf.StringField('Title')
         description = wtf.StringField('Source')
         xaxis = wtf.SelectField('X Axis Column', choices=axes)
-        columns = wtf.CheckListField('Series', choices=columns)
+        columns = wtf.CheckListField('Series', choices=choices)
 
     form = Form(obj=graph)
 
