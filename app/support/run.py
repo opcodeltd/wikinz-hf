@@ -27,6 +27,14 @@ def load_data():
             role         = 'developer',
         ),
         dict(
+            email        = 'martyn@opcode.co.nz',
+            password     = 'password',
+            display_name = 'Martyn Smith',
+            country      = 'NZ',
+            timezone     = 'Pacific/Auckland',
+            role         = 'developer',
+        ),
+        dict(
             email        = 'lilliangrace@wikinewzealand.org',
             password     = 'password',
             display_name = 'Lillian Grace',
