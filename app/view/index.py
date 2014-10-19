@@ -21,6 +21,11 @@ def index():
 
     return {}
 
+@blueprint.route('/__exception', auth=auth.public)
+@render_html()
+def exception():
+    raise Exception('Test exception for audit purposes')
+
 @blueprint.route('/sheet-test', auth=auth.login)
 @render_html()
 def sheet_test():
